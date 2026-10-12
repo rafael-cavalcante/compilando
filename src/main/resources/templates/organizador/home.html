@@ -213,12 +213,15 @@
                         <div class="challenge-cover">
                             <i class="bi bi-braces"></i>
 
-                            <span class="badge" th:classappend="${desafio.publicado}
+                            <span class="badge" th:classappend="${desafio.status}
                                   ? ' text-bg-success'
-                                  : ' text-bg-secondary'" th:text="${desafio.publicado}
-                                  ? 'Publicado'
-                                  : 'Rascunho'">
-                                Publicado
+                                  : ' text-bg-secondary'" th:text="${desafio.status}
+                                  ? 'PUBLICADO' : 'RASCUNHO'">
+                            </span>
+
+                            <span class="badge" 
+                                th:classappend="${desafio.status.name == 'PUBLICADO'} ? ' text-bg-success' : ' text-bg-secondary'" 
+                                th:text="${desafio.status.name == 'PUBLICADO'} ? 'PUBLICADO' : 'RASCUNHO'">
                             </span>
                         </div>
 
@@ -233,7 +236,7 @@
                                     </span>
                                 </span>
 
-                                <span class="small text-secondary" th:text="${desafio.pontuacao} + ' pontos'">
+                                <span class="small text-secondary" th:text="${#temporals.format(desafio.dataInicio, 'dd/MM/yyyy HH:mm')}">
                                     100 pontos
                                 </span>
                             </div>

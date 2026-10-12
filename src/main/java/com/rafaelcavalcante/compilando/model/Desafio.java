@@ -1,13 +1,25 @@
 package com.rafaelcavalcante.compilando.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-import com.rafaelcavalcante.compilando.model.enums.NivelDesafio;
+import com.rafaelcavalcante.compilando.model.enums.Nivel;
+import com.rafaelcavalcante.compilando.model.enums.StatusDesafio;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -25,35 +37,29 @@ public class Desafio {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String descricao;
 
+    @Column(nullable = false)
+    private LocalDateTime dataInicio;
+
+    @Column(nullable = false)
+    private LocalDateTime dataFim;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private NivelDesafio nivel;
+    private Nivel nivel;
 
-    @Column(nullable = false)
-    private Integer pontuacao = 100;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 25)
+    private StatusDesafio status = StatusDesafio.RASCUNHO;
 
-    @Column(nullable = false)
-    private boolean publicado = false;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "organizador_id", nullable = false)
+    private Usuario organizador;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime criadoEm;
 
-    private LocalDateTime atualizadoEm;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "organizador_id", nullable = false)
-    private Organizador organizador;
-
     @PrePersist
-    protected void aoCriar() {
-        LocalDateTime agora = LocalDateTime.now();
-        criadoEm = agora;
-        atualizadoEm = agora;
+    void prePersist() {
+        this.criadoEm = LocalDateTime.now();
     }
-
-    @PreUpdate
-    protected void aoAtualizar() {
-        atualizadoEm = LocalDateTime.now();
-    }
-
 }

@@ -1,6 +1,6 @@
 package com.rafaelcavalcante.compilando.model.enums;
 
-public enum NivelDesafio {
+public enum Nivel {
     INICIANTE,
     INTERMEDIARIO,
     AVANCADO

@@ -29,12 +29,15 @@ import lombok.Setter;
 @Entity
 @Table(name = "usuarios")
 public class Usuario implements UserDetails {
-    @Id 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 80)
+    @Column(nullable = false, length = 120)
     private String username;
+
+    @Column(nullable = false, unique = true, length = 150)
+    private String email;
 
     @Column(nullable = false, length = 255)
     private String password;
@@ -51,16 +54,14 @@ public class Usuario implements UserDetails {
 
     @PrePersist
     protected void aoCriar() {
-        if (criadoEm == null) criadoEm = LocalDateTime.now();
+        this.criadoEm = LocalDateTime.now();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-         return List.of(
-            new SimpleGrantedAuthority(
-                "ROLE_" + this.papel.name()
-            )
-        );
+        return List.of(
+                new SimpleGrantedAuthority(
+                        "ROLE_" + this.papel.name()));
     }
 
     @Override
@@ -75,7 +76,6 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return ativo;
+        return this.ativo;
     }
-    
 }
