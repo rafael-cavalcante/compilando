@@ -1,0 +1,118 @@
+:root {
+    --compilando-primary: #4f46e5;
+    --compilando-dark: #171b35;
+    --compilando-background: #f7f8fc;
+    --compilando-border: #e8eaf2;
+}
+
+body {
+    background: var(--compilando-background);
+    color: #20243a;
+    min-height: 100vh;
+}
+
+.navbar-compilando {
+    background: var(--compilando-dark);
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    letter-spacing: -0.4px;
+}
+
+.section-label {
+    color: var(--compilando-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.btn-primary {
+    background-color: var(--compilando-primary);
+    border-color: var(--compilando-primary);
+}
+
+.btn-primary:hover {
+    background-color: #4338ca;
+    border-color: #4338ca;
+}
+
+.stat-card,
+.challenge-card {
+    border: 1px solid var(--compilando-border);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 4px 18px rgba(28, 35, 70, 0.035);
+}
+
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: #eeedff;
+    color: var(--compilando-primary);
+    font-size: 1.5rem;
+}
+
+.challenge-card {
+    overflow: hidden;
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.challenge-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(28, 35, 70, 0.09);
+}
+
+.challenge-cover {
+    min-height: 145px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(135deg, #e9e8ff, #dceafe);
+    color: var(--compilando-primary);
+    font-size: 3rem;
+}
+
+.challenge-cover .badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.72rem;
+}
+
+.challenge-description {
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.empty-state {
+    border: 2px dashed #d9dced;
+    border-radius: 18px;
+    background: #fff;
+}
+
+.empty-icon {
+    color: #a5a3f5;
+    font-size: 3.5rem;
+}
+
+@media (max-width: 576px) {
+    main.container {
+        padding-top: 2rem !important;
+    }
+
+    .display-6 {
+        font-size: 1.9rem;
+    }
+}

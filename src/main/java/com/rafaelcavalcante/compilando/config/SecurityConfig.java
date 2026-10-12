@@ -17,13 +17,14 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()
-                .requestMatchers("/organizadores/**")
+                .requestMatchers("/organizador/**")
                     .hasRole("ORGANIZADOR")
-                .requestMatchers("/equipes/**")
+                .requestMatchers("/equipe/**")
                     .hasRole("EQUIPE")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
+                .successHandler(new CustomAuthenticationSuccessHandler())
                 .permitAll()
             )
             .logout(logout -> logout

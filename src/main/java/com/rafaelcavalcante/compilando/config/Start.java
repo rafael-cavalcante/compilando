@@ -4,22 +4,26 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.rafaelcavalcante.compilando.model.Equipe;
 import com.rafaelcavalcante.compilando.model.Organizador;
 import com.rafaelcavalcante.compilando.model.Usuario;
 import com.rafaelcavalcante.compilando.model.enums.PapelUsuario;
+import com.rafaelcavalcante.compilando.repository.EquipeRepository;
 import com.rafaelcavalcante.compilando.repository.OrganizadorRepository;
 import com.rafaelcavalcante.compilando.repository.UsuarioRepository;
 
 @Component
 public class Start implements CommandLineRunner {
+    private final EquipeRepository equipeRepository;
     private final UsuarioRepository usuarioRepository;
     private final OrganizadorRepository organizadorRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Start(UsuarioRepository usuarioRepository, OrganizadorRepository organizadorRepository, PasswordEncoder passwordEncoder) {
+    public Start(UsuarioRepository usuarioRepository, OrganizadorRepository organizadorRepository, PasswordEncoder passwordEncoder, EquipeRepository equipeRepository) {
         this.usuarioRepository = usuarioRepository;
         this.organizadorRepository = organizadorRepository;
         this.passwordEncoder = passwordEncoder;
+        this.equipeRepository = equipeRepository;
     }
 
     @Override
@@ -61,8 +65,28 @@ public class Start implements CommandLineRunner {
 
         organizadorRepository.save(organizador);
 
-        System.out.println(
-                "Organizador inicial cadastrado com sucesso.");
+        System.out.println("Organizador inicial cadastrado com sucesso.");
+
+        Usuario usuarioEquipe = this.usuarioRepository
+                .findByUsername("equipe")
+                .orElseGet(() -> {
+                    Usuario novo = new Usuario();
+                    novo.setUsername("equipe");
+                    novo.setPassword(
+                            passwordEncoder.encode("senha123"));
+                    novo.setPapel(
+                            PapelUsuario.EQUIPE);
+                    novo.setAtivo(true);
+
+                    return usuarioRepository.save(novo);
+                });
+
+        Equipe equipe = new Equipe();
+        equipe.setUsuario(usuarioEquipe);
+
+        this.equipeRepository.save(equipe);
+
+        System.out.println("Equipe inicial cadastrada com sucesso.");
     }
 
 }
