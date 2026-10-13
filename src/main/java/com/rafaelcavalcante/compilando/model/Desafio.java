@@ -41,7 +41,7 @@ public class Desafio {
     private LocalDateTime dataInicio;
 
     @Column(nullable = false)
-    private LocalDateTime dataFim;
+    private LocalDateTime dataTermino;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

@@ -7,10 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,21 +17,19 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "casos_teste", uniqueConstraints = @UniqueConstraint(name = "uk_caso_teste_questao_ordem", columnNames = "questao_id"))
+@Table(name = "casos_teste")
 public class CasoTeste {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
-    @Column(nullable = false)
+    @Column(name = "entrada", columnDefinition = "TEXT", nullable = false)
     private String entrada;
 
-    @Lob
-    @Column(nullable = false)
+    @Column(name = "saida_esperada", columnDefinition = "TEXT", nullable = false)
     private String saidaEsperada;
 
-    @Column(nullable = false)
+    @Column(name = "publico", nullable = false)
     private boolean publico = false;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

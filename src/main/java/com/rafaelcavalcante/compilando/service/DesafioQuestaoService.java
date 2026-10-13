@@ -17,7 +17,7 @@ public class DesafioQuestaoService {
         return this.desafioQuestaoRepository.save(desafioQuestao);
     }
 
-    public Integer buscarMaiorOrdemPorDesafio(Long desafioId) {
+    public DesafioQuestao buscarMaiorOrdemPorDesafio(Long desafioId) {
         return this.desafioQuestaoRepository.findFirstByDesafioIdOrderByOrdemDesc(desafioId);
     }
 }

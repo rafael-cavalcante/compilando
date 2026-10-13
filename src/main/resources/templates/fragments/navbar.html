@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <nav th:fragment="navbar(paginaAtual)" class="navbar navbar-expand-lg navbar-dark navbar-compilando">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold" th:href="@{/organizador}">
+                <i class="bi bi-code-slash me-2"></i>
+                Compilando
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal"
+                aria-controls="navbarPrincipal" aria-expanded="false" aria-label="Abrir menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarPrincipal">
+
+                <ul class="navbar-nav me-auto ms-lg-4">
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${paginaAtual == 'home'} ? 'active'"
+                            th:href="@{/organizador}">
+                            <i class="bi bi-house me-1"></i>
+                            Início
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${paginaAtual == 'desafios'} ? 'active'"
+                            th:href="@{/organizador/desafios}">
+                            <i class="bi bi-code-square me-1"></i>
+                            Desafios
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${paginaAtual == 'questoes'} ? 'active'"
+                            th:href="@{/organizador/questoes}">
+                            <i class="bi bi-file-earmark-code me-1"></i>
+                            Questões
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${paginaAtual == 'casosTeste'} ? 'active'"
+                            th:href="@{/organizador/casosTeste}">
+                            <i class="bi bi-check2-square me-1"></i>
+                            Casos de Teste
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${paginaAtual == 'equipes'} ? 'active'"
+                            th:href="@{/organizadores/equipes}">
+                            <i class="bi bi-people me-1"></i>
+                            Equipes
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="dropdown">
+                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="bi bi-person-circle me-2"></i>
+                        <span th:text="${organizador}">
+                            Organizador
+                        </span>
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" th:href="@{/organizador/perfil}">
+                                <i class="bi bi-person me-2"></i>
+                                Meu perfil
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <form th:action="@{/logout}" method="post">
+                                <button class="dropdown-item text-danger" type="submit">
+                                    <i class="bi bi-box-arrow-right me-2"></i>
+                                    Sair
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+</body>
