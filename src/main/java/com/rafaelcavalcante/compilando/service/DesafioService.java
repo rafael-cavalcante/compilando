@@ -33,6 +33,18 @@ public class DesafioService {
         return this.desafioRepository.save(desafio);
     }
 
+    public Desafio buscarDesafio(Long desafioId, Long usuarioId){
+        Desafio desafio = this.desafioRepository.findById(desafioId)
+                .orElseThrow(() -> new EntityNotFoundException("Desafio não encontrado!"));
+
+        if(!desafio.getOrganizador().getId().equals(usuarioId)){
+            throw new AccessDeniedException(
+                    "Você não tem permissão para editar este desafio.");
+        }
+
+        return desafio;
+    }
+
     /**
      * Método para listar desafios
      * @param organizadorId
@@ -77,23 +89,15 @@ public class DesafioService {
                 .orElseThrow(() -> new IllegalStateException("Desafio não encontrado com ID: " + id));
     }
 
-    public List<Desafio> buscarDesafiosPorStatusPublicos() {
+    // Metodo para listar desafios publicados
+    public List<Desafio> listarDesafiosPorStatusPublico() {
         return this.desafioRepository.findByStatusOrderByCriadoEmDesc(StatusDesafio.PUBLICADO);
-    }
-
-    public List<Desafio> buscarDesafiosPorOrganizador(Long organizadorId) {
-        return this.desafioRepository.findByOrganizadorIdOrderByCriadoEmDesc(organizadorId);
     }
 
     // Metodo para listar todos os desafios
     public Page<Desafio> listarDesafios(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return this.desafioRepository.findAll(pageable);
-    }
-
-    // Metodo para listar desafios publicados
-    public List<Desafio> listarDesafiosPorStatusPublicado() {
-        return this.desafioRepository.findByStatusOrderByCriadoEmDesc(StatusDesafio.PUBLICADO);
     }
 
     // Metodo para contar desafios

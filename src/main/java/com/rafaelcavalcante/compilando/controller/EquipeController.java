@@ -18,7 +18,7 @@ public class EquipeController {
 
     @GetMapping("/equipe")
     public String dashboard(@AuthenticationPrincipal Usuario usuario, Model model) {
-        model.addAttribute("desafios", this.desafioService.buscarDesafiosPorStatusPublicos());
+        model.addAttribute("desafios", this.desafioService.listarDesafiosPorStatusPublico());
         return "equipe/home";
     }
 

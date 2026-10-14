@@ -14,12 +14,8 @@ public interface DesafioRepository extends JpaRepository<Desafio, Long> {
 
     List<Desafio> findByStatusOrderByCriadoEmDesc(StatusDesafio status);
 
-    List<Desafio> findByOrganizadorIdOrderByCriadoEmDesc(Long organizadorId);
-
     Page<Desafio> findAllByOrganizadorId(Long organizadorId, Pageable paginacao);
 
     List<Desafio> findTop3ByOrganizadorIdOrderByCriadoEmDesc(Long organizadorId);
-
-    boolean existsByIdAndOrganizadorId(Long desafioId, Long organizadorId);
 
 }

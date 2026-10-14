@@ -99,20 +99,37 @@ public class OrganizadorController {
 
     // Editar Desafio
     @GetMapping("/desafios/{desafioId}/editar")
-    public String editarDesafio(@AuthenticationPrincipal Usuario usuario, @PathVariable Long desafioId, Model model) {
-        Desafio desafio = this.desafioService.buscarDesafioPorId(desafioId);
-        model.addAttribute("desafio", desafio);
-        model.addAttribute("niveis", Nivel.values());
-        model.addAttribute("statusDesafio", StatusDesafio.values());
-        model.addAttribute("nomeOrganizador", usuario.getUsername());
-        return "organizador/desafioForm";
+    public String editarDesafio(@AuthenticationPrincipal Usuario usuario, @PathVariable Long desafioId, Model model,
+            RedirectAttributes redirectAttributes) {
+        try {
+            Desafio desafio = this.desafioService.buscarDesafio(desafioId, usuario.getId());
+
+            model.addAttribute("desafio", desafio);
+            model.addAttribute("niveis", Nivel.values());
+            model.addAttribute("statusDesafio", StatusDesafio.values());
+            model.addAttribute("nomeOrganizador", usuario.getUsername());
+
+            return "organizador/desafioForm";
+
+        } catch (EntityNotFoundException e) {
+            redirectAttributes.addFlashAttribute(
+                    "erro",
+                    "Desafio não encontrado.");
+
+        } catch (AccessDeniedException e) {
+            redirectAttributes.addFlashAttribute(
+                    "erro",
+                    "Acesso restrito! Você não é o proprietário deste desafio.");
+        }
+        return "redirect:/organizador/desafios";
     }
 
+    // Apagar Desafio
     @PostMapping("/desafios/{desafioId}/apagar")
     public String apagarDesafio(@AuthenticationPrincipal Usuario usuario, @PathVariable Long desafioId,
             RedirectAttributes redirectAttributes) {
         try {
-            desafioService.excluirDesafio(desafioId, usuario.getId());
+            this.desafioService.excluirDesafio(desafioId, usuario.getId());
 
             redirectAttributes.addFlashAttribute(
                     "mensagem",
