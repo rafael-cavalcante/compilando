@@ -39,7 +39,7 @@ public class DesafioService {
 
         if(!desafio.getOrganizador().getId().equals(usuarioId)){
             throw new AccessDeniedException(
-                    "Você não tem permissão para editar este desafio.");
+                    "Você não tem permissão para acessar este desafio.");
         }
 
         return desafio;
@@ -60,6 +60,7 @@ public class DesafioService {
     /**
      * Método para exluir um desafio
      * @param desafioId
+     * @param usuarioId
      */
     @Transactional
     public void excluirDesafio(Long desafioId, Long usuarioId) {

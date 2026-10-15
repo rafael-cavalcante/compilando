@@ -161,22 +161,16 @@
                                 Editar
                             </a>
 
-                            <form th:action="@{/organizador/questoes/{id}/excluir(id=${questao.id})}" method="post"
-                                onsubmit="return confirm('Deseja excluir esta questão?')">
-
+                            <form th:action="@{/organizador/questoes/{id}/apagar(id=${questao.id})}" method="post"
+                                th:attr="data-titulo=${questao.titulo}" onsubmit="return confirmarExclusaoQuestao(this)">
                                 <button class="btn btn-outline-danger btn-sm" type="submit" title="Excluir questão"
-                                    aria-label="Excluir questão">
-
+                                    aria-label="Excluir Questão">
                                     <i class="bi bi-trash"></i>
                                 </button>
-
                             </form>
-
                         </div>
-
                     </div>
                 </article>
-
             </div>
         </div>
 
@@ -237,9 +231,8 @@
 
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/js/desafioPopup.js"></script>
 </body>
 
 </html>

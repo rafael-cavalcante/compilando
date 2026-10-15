@@ -73,7 +73,7 @@ public class OrganizadorController {
         return "organizador/desafios";
     }
 
-    // Criar Desafio
+    // Criar Desafio GET
     @GetMapping("/desafios/novo")
     public String novoDesafio(@AuthenticationPrincipal Usuario usuario, Model model) {
         model.addAttribute("desafio", new Desafio());
@@ -83,6 +83,7 @@ public class OrganizadorController {
         return "organizador/desafioForm";
     }
 
+    // Criar Desafio POST
     @PostMapping("/desafios/novo")
     public String cadastrar(@AuthenticationPrincipal Usuario usuario, @Valid Desafio desafio) {
         Usuario organizador = this.usuarioService
@@ -222,6 +223,64 @@ public class OrganizadorController {
                 "Questão cadastrada e adicionada ao desafio com sucesso!");
 
         return "redirect:/organizador/desafios/" + desafioId + "/questoes";
+    }
+
+    // Rota de editar Questão
+    @GetMapping("/desafios/{desafioId}/questoes/{questaoId}/editar")
+    public String editarQuestao(@AuthenticationPrincipal Usuario usuario, @PathVariable Long desafioId, @PathVariable Long questaoId, Model model,
+            RedirectAttributes redirectAttributes) {
+        try {
+            Desafio desafio = this.desafioService.buscarDesafioPorId(desafioId);
+            List<Questao> questoes = this.questaoService.listarQuestoesPorDesafioId(desafio.getId());
+            Questao questao = this.questaoService.buscarQuestao(questaoId, usuario.getId());
+
+            model.addAttribute("questao", questao);
+            model.addAttribute("niveis", Nivel.values());
+            model.addAttribute("desafio", desafio);
+            model.addAttribute("questoes", questoes);
+
+            redirectAttributes.addFlashAttribute(
+                    "mensagem",
+                    "Questão editada com sucesso.");
+
+            return "organizador/questaoForm";
+
+        } catch (EntityNotFoundException e) {
+            redirectAttributes.addFlashAttribute(
+                    "erro",
+                    "Questão não encontrado.");
+
+        } catch (AccessDeniedException e) {
+            redirectAttributes.addFlashAttribute(
+                    "erro",
+                    "Acesso restrito! Você não é o proprietário desta questão.");
+        }
+        return "redirect:/organizador/questoes";
+    }
+
+    // Rota de apagar Questão
+    @PostMapping("/questoes/{questaoId}/apagar")
+    public String apagarQuestao(@AuthenticationPrincipal Usuario usuario, @PathVariable Long questaoId,
+            RedirectAttributes redirectAttributes) {
+        try {
+            this.questaoService.excluirQuestao(questaoId, usuario.getId());
+
+            redirectAttributes.addFlashAttribute(
+                    "mensagem",
+                    "Questão excluído com sucesso.");
+
+        } catch (EntityNotFoundException e) {
+            redirectAttributes.addFlashAttribute(
+                    "erro",
+                    "Questão não encontrado.");
+
+        } catch (AccessDeniedException e) {
+            redirectAttributes.addFlashAttribute(
+                    "erro",
+                    "Acesso restrito! Você não é o proprietário desta questão.");
+        }
+
+        return "redirect:/organizador/questoes";
     }
 
     // Método para exibir o formulário de adição de caso de teste
