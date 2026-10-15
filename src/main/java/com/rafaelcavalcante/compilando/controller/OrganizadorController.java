@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,6 +53,7 @@ public class OrganizadorController {
     }
 
     // Inicial
+    @PreAuthorize("hasRole('ORGANIZADOR')")
     @GetMapping()
     public String home(@AuthenticationPrincipal Usuario usuario, Model model) {
         model.addAttribute("organizador", usuario.getUsername());

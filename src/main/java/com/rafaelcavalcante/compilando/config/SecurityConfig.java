@@ -23,6 +23,9 @@ public class SecurityConfig {
                     .hasRole("EQUIPE")
                 .anyRequest().authenticated()
             )
+            .exceptionHandling(exception -> exception
+                .accessDeniedPage("/acesso-negado")
+            )
             .formLogin(form -> form
                 .successHandler(new CustomAuthenticationSuccessHandler())
                 .permitAll()
